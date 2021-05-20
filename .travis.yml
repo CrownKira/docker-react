@@ -1,4 +1,5 @@
 # clone our code first, then do following
+language: generic
 sudo: required # need superuser permission
 services:
   # install a copy of docker into the running container
@@ -15,4 +16,7 @@ before_install:
 
 script:
   # -- --coverage: so that it exits after the test is complete
-  - docker run crownkira/docker-react npm run test -- --coverage
+  # will exit with > 0 if test fails
+  # docker run -e CI=true crownkira/docker-react npm run test
+  # - docker run crownkira/docker-react npm run test -- --coverage
+  - docker run -e CI=true crownkira/docker-react npm run test
