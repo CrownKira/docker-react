@@ -20,3 +20,23 @@ script:
   # docker run -e CI=true crownkira/docker-react npm run test
   # - docker run crownkira/docker-react npm run test -- --coverage
   - docker run -e CI=true crownkira/docker-react npm run test
+
+deploy:
+  # travis ci comes pre-configured to deploy the application
+  # to some hosting providers eg. aws, digital ocean
+  # tell travis that we want you to use this set of instruction
+  # to auto deploy the application
+  provider: elasticbeanstalk
+  region: 'us-east-2'
+  app: 'docker-react'
+  env: 'Dockerreact-env'
+  #
+  bucket_name: 'elasticbeanstalk-us-east-2-486208507309'
+  bucket_path: 'docker-react'
+  on:
+    # deploy app when code updated on branch master
+    branch: master
+  # api key give access to aws account over to travis CI
+  access_key_id: $AWS_ACCESS_KEY
+  # secure: "$AWS_SECRET_KEY"
+  secret_access_key: $AWS_SECRET_KEY
