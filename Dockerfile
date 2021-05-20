@@ -1,7 +1,8 @@
 # builder phase 
 # from this FROM command and everything underneath it 
 # is going to be refered to as the builder phase
-FROM node:alpine as builder
+# FROM node:alpine as builder (named builder)
+FROM node:alpine 
 WORKDIR '/app'
 COPY package.json .
 RUN npm install
@@ -28,4 +29,6 @@ FROM nginx
 # docker build .  (get image id)
 # docker run -p 8080:80 <image_id>   
 EXPOSE 80
-COPY --from=builder /app/build /usr/share/nginx/html
+# COPY --from=builder /app/build /usr/share/nginx/html (named builder)
+# stages starting from 0 (first FROM = 0, second FROM = 1, etc)
+COPY --from=0 /app/build /usr/share/nginx/html 
