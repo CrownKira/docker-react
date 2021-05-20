@@ -1,0 +1,18 @@
+# clone our code first, then do following
+sudo: required # need superuser permission
+services:
+  # install a copy of docker into the running container
+  # need docker cli preinstalled
+  - docker
+
+# a series of commands executed before script is run
+# series of steps, setups
+before_install:
+  # build the docker image
+  # -t: tag the image
+  # -f: build image dockerfile of this name
+  - docker build -t crownkira/docker-react -f Dockerfile.dev .
+
+script:
+  # -- --coverage: so that it exits after the test is complete
+  - docker run crownkira/docker-react npm run test -- --coverage
