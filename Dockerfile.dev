@@ -1,0 +1,20 @@
+# Dockerfile.dev: make it clear that this file is only used in dev environment 
+# Dockerfile: used for production
+# delete node_modules in local filesystem, 
+# since it is not needed (will be present in the container)
+
+FROM node:alpine
+
+WORKDIR '/app'
+
+COPY package.json .
+RUN npm install
+
+# not strictly necessary since volume is set up 
+# to map everything over 
+# but still good to have this line 
+# in case in the future we not making 
+# use of docker compose 
+COPY . .
+
+CMD ["npm", "run", "start"]

@@ -1,0 +1,29 @@
+version: '3'
+
+services:
+  web:
+    # specify the location of dockerfile (to build the image)
+    build:
+      # path to a directory containing a Dockerfile
+      context: .
+      # name of the dockerfile
+      dockerfile: Dockerfile.dev
+    ports:
+      - '3000:3000'
+    volumes:
+      # bookmark this, dont need to map this (don't override it)
+      - /app/node_modules
+      # map everything in ./ over to app/
+      # app/ can be empty
+      # but still better the copy everything over
+      - .:/app
+  tests:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    volumes:
+      - /app/node_modules
+      - .:/app
+    # override the starting command
+    # when this container is created
+    command: ['npm', 'run', 'test']
